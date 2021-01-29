@@ -21,7 +21,7 @@
 	/*
 		Switch e cases é um tipo de estrutura condicional em que ela recebe um parametro,
 		e logo depois verifica se o valor do parâmetro é igual a algum valor das cases
-		caso seja, o bloco de código da case é executado, e logo depois, finalzado!
+		caso seja, o bloco de código da case é executado, e logo depois, finalizado!
 
 		Switch também podem receber uma variável string como parâmetro, e suas cases também podem conter strings.
 		As strings das cases devem estar dentro de aspas duplas.
