@@ -30,8 +30,11 @@
 	Explicação: 
 	Basicamente, você filtra um input para que não sejam enviados caracteres inválidos ao banco de dados,
 	o uso é basicamente do mesmo jeito, basta trocar de validate para sanitize:
-	antes de realizaro validade, certifique-se que você está usando o filter_var no bloco de condição, e usando
+	antes de realizar o validate, certifique-se que você está usando o filter_var no bloco de condição, e usando
 	o sanitize corretamente
+	
+	- Dica:
+	Dê uma olhada na documentação e procure por esses filtros, vai ajudar bastante!
 -->
 <?php
 	if(isset($_POST['enviou'])) {
