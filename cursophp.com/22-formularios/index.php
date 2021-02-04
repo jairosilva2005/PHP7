@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <!-- Validações em PHP -->
 <!-- 
-	Funções filter_input - filter_var
+	Validate Filters
 	---------------------------------
 
 	FILTER_VALIDATE_INT
@@ -18,23 +18,36 @@
 	Basicamente, o primeiro parâmetro de filter_input é o tipo de input, que no nosso caso é do tipo POST
 	então você usa INPUT_POST, o segundo parâmetro é o nome do input de validação, que leva como padrão o nome
 	do parâmetro "name" do input, e o terceiro, é o tipo de validação.
+
+	Sanitize filters
+	---------------------------------
+
+	FILTER_SANITIZE_EMAIL
+	FILTER_SANITIZE_INT
+	FILTER_SANITIZE_SPECIAL_CHARS
+	FILTER_SANITIZE_URL
+
+	Explicação: 
+	Basicamente, você filtra um input para que não sejam enviados caracteres inválidos ao banco de dados,
+	o uso é basicamente do mesmo jeito, basta trocar de validate para sanitize:
+	antes de realizaro validade, certifique-se que você está usando o filter_var no bloco de condição, e usando
+	o sanitize corretamente
 -->
 <?php
 	if(isset($_POST['enviou'])) {
 		$Erros = array();
-		if(!$Idade = filter_input(INPUT_POST, 'Idade', FILTER_VALIDATE_INT)) {
+		$Nome = filter_input(INPUT_POST, 'Nome', FILTER_SANITIZE_SPECIAL_CHARS);
+		// Nesse exemplo, não validei o nome
+		$Idade = filter_input(INPUT_POST, 'Idade', FILTER_SANITIZE_NUMBER_INT);
+		if(!filter_var($Idade, FILTER_VALIDATE_INT)) {
 			$Erros[] = "O valor de 'Idade' precisa ser um inteiro!<br>";
 		}
-		if(!$Email = filter_input(INPUT_POST, 'Email', FILTER_VALIDATE_EMAIL)) {
+		$Email = filter_input(INPUT_POST, 'Email', FILTER_SANITIZE_EMAIL);
+		if(!filter_var($Email, FILTER_VALIDATE_EMAIL)) {
 			$Erros[] = "Preencha o campo de email com um email válido!<br>";
 		}
-		if(!$Peso = filter_input(INPUT_POST, 'Peso', FILTER_VALIDATE_FLOAT)) {
-			$Erros[] = "Preencha o campo de peso com um valor válido!<br>";
-		}
-		if(!$IP = filter_input(INPUT_POST, 'IP', FILTER_VALIDATE_IP)) {
-			$Erros[] = "Preencha o campo de IP com um IP válido!<br>";
-		}
-		if(!$URL = filter_input(INPUT_POST, 'Url', FILTER_VALIDATE_URL)) {
+		$URL = filter_input(INPUT_POST, 'URL', FILTER_SANITIZE_URL);
+		if(!filter_var($URL, FILTER_VALIDATE_URL)) {
 			$Erros[] = "Preencha o campo de URL com uma URL válida!<br>";
 		}
 
@@ -52,11 +65,10 @@
 </head>
 <body>
 	<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
+		<label>Nome: </label><input type="text" name="Nome" placeholder="Seu nome*"><br>
 		<label>Idade: </label><input type="text" name="Idade" placeholder="Sua Idade*" autocomplete="off"><br>
-		<label>Email: </label><input type="text" name="Email" placeholder="Sua idade*" autocomplete="off"><br>
-		<label>Peso: </label><input type="text" name="Peso" placeholder="Seu peso*" autocomplete="off"><br>
-		<label>IP: </label><input type="text" name="IP" placeholder="Seu IP*" autocomplete="off"><br>
-		<label>URL: </label><input type="text" name="Url" placeholder="Sua URL*" autocomplete="off"><br>
+		<label>Email: </label><input type="text" name="Email" placeholder="Seu Email*" autocomplete="off"><br>
+		<label>URL: </label><input type="text" name="URL" placeholder="Sua URL*" autocomplete="off"><br>
 		<button type="submit" name="enviou">Enviar</button>
 	</form>
 </body>
