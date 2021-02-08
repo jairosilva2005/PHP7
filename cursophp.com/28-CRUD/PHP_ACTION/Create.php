@@ -5,11 +5,22 @@
 	// Conexão
 	require_once "DB_Connect.php";
 
+	// Clear
+	function clear($input) {
+		global $Connect;
+
+		// SQL Injection
+		$Var = mysqli_escape_string($Connect, $input);
+		// XSS
+		$Var = htmlspecialchars($Var);
+		return $Var;
+	}
+
 	if(isset($_POST['BTN_Cadastrar'])) {
-		$Nome = mysqli_escape_string($Connect, $_POST['Nome']);
-		$Sobrenome = mysqli_escape_string($Connect, $_POST['Sobrenome']);
-		$Email = mysqli_escape_string($Connect, $_POST['Email']);
-		$Idade = mysqli_escape_string($Connect, $_POST['Idade']);
+		$Nome = clear($_POST['Nome']);
+		$Sobrenome = clear($_POST['Sobrenome']);
+		$Email = clear($_POST['Email']);
+		$Idade = clear($_POST['Idade']);
 
 		// Inserção
 		$SQL = "INSERT INTO Clientes (Nome, Sobrenome, Email, Idade) values ('$Nome', '$Sobrenome', '$Email', '$Idade')";
